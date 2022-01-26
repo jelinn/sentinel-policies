@@ -5,8 +5,8 @@ import "http"
 moduleSource = {}
 
 for tfconfig.module_paths as path {
-  
-  print(tfconfig.module(path).modules[path].source)
+  print(path)
+  print(tfconfig.module(path).modules.path.source)
   
   
 }
