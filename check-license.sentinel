@@ -4,9 +4,8 @@ import "http"
 
 moduleSource = {}
 
-for tfconfig.module_calls as mc {
-  print("source - ",mc.source)
- }
+print tfconfig.module_calls
+
 main = rule {
  true
 }
