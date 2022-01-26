@@ -4,7 +4,7 @@ import "http"
 
 moduleSource = {}
 
-print tfconfig.module_calls
+print(tfconfig.module_calls)
 
 main = rule {
  true
