@@ -6,7 +6,7 @@ moduleSource = {}
 
 for tfconfig.module_paths as path {
   
-  print(tfconfig.module(path))
+  print(tfconfig.module(path).source)
 }
 main = rule {
  true
