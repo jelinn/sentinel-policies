@@ -8,3 +8,6 @@ for tfconfig.module_paths as path {
   source=path.source
   print(path)
 }
+main = rule {
+ true
+}
