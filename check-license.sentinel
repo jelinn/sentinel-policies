@@ -1,0 +1,10 @@
+import "tfplan"
+import "tfconfig"
+import "http"
+
+moduleSource = {}
+
+for tfconfig.module_paths as path {
+  source=path.source
+  print(path)
+}
