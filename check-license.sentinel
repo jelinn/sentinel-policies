@@ -1,5 +1,6 @@
 import "tfconfig" as tfconfig
 import "http"
+import "strings"
 
 # The address of the Terraform Cloud or Terraform Enterprise server
 param address default "app.terraform.io"
