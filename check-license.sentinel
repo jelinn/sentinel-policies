@@ -1,9 +1,28 @@
 import "tfconfig" as tfconfig
 import "http"
 
+# The address of the Terraform Cloud or Terraform Enterprise server
+param address default "app.terraform.io"
+
+# The name of the Terraform Cloud or Terraform Enterprise organization
+param organization default "jlinn-tfcb
+
+# A valid Terraform Cloud or Terraform Enterprise API token
+param token
+
+
 for tfconfig.modules as name, m {
-  print("Name - ", name) 
-  print("SOurce - ", m.source)
+  if not strings.has_prefix(m.source, address + "/" + organization){
+    # Public Module Registry - these are the modules we need to check. 
+    # Public Registry API URL - https://registry.terraform.io/v1/modules/m.source
+    print("Public Module", m.source)
+    
+    
+  } else {
+    # Private Module Registry
+    # Do we need to check these? 
+    print("PMR Module, m.source)
+  }
 }
 
 
