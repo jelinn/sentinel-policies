@@ -12,36 +12,53 @@ param organization default "jlinn-tfcb"
 # A valid Terraform Cloud or Terraform Enterprise API token
 #param token
 
+check_module_licenses = func(){
+  
+  valid = true
+  # Loop modules in use in this config. 
+  for tfconfig.modules as name, m {
+    if not strings.has_prefix(m.source, address + "/" + organization){
+      # Public Module Registry - these are the modules we need to check. 
+      # Public Registry API URL - https://registry.terraform.io/v1/modules/m.source
+      print("Name : ", name, " :: Public Module : ", m.source)
 
-for tfconfig.modules as name, m {
-  if not strings.has_prefix(m.source, address + "/" + organization){
-    # Public Module Registry - these are the modules we need to check. 
-    # Public Registry API URL - https://registry.terraform.io/v1/modules/m.source
-    print("Public Module", m.source)
-   
-   # First API call to Terraform Registry to get source URL for module
-    request = http.request("https://registry.terraform.io/v1/modules/"+m.source)
-    response = json.unmarshal(http.get(request).body)
-    moduleSourceURL = strings.trim_prefix(response.source, "https://github.com/")
-    print("Module Source", moduleSourceURL)
+     # First API call to Terraform Registry to get source URL for module
+      request = http.request("https://registry.terraform.io/v1/modules/"+m.source)
+      response = json.unmarshal(http.get(request).body)
+      moduleSourceURL = strings.trim_prefix(response.source, "https://github.com/")
+      print("Module Source", moduleSourceURL)
+
+      # Second API call to source URL Github license API
+      #Github URL https://api.github.com/repos/$m.source/license
+      request = http.request("https://api.github.com/repos/" + moduleSourceURL + "/license" )
+      print("Request URL - ", request)
+      response = json.unmarshal(http.get(request).body)
+      license = response.license.key 
+      print("License - ",license)
+     
+    } else {
+      # Private Module Registry in TFE or TFC. 
+      # Do we need to check these? 
+      print("PMR Module", m.source)
+    }
     
-    # Second API call to source URL Github license API
-    #Github URL https://api.github.com/repos/$m.source/license
-    request = http.request("https://api.github.com/repos/" + moduleSourceURL + "/license" )
-    print("Request URL - ", request)
-    response = json.unmarshal(http.get(request).body)
-    license = response.license.name 
-    print("License - ",license)
-    
-  } else {
-    # Private Module Registry
-    # Do we need to check these? 
-    print("PMR Module", m.source)
+    if license not in allowed_licenses{
+      print("The license - ", license, " for module ", name, " is not an approved type. Please contact the cloud team.")
+      valid = false
+    }
+      return valid
   }
+  
 }
 
+# Allowed licenses
+allowed_licenses = [
+  "apache-2.0",
+  "mit",
+]
 
+approved = check_module_licenses(allowed_licenses)
 
 main = rule {
- true
+ approved
 }
