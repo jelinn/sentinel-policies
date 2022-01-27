@@ -1,4 +1,4 @@
-import "tfconfig/v2" as tfconfig
+import "tfconfig" as tfconfig
 import "http"
 
 for tfconfig.modules as name, m {
