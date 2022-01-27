@@ -5,7 +5,7 @@ import "http"
 param address default "app.terraform.io"
 
 # The name of the Terraform Cloud or Terraform Enterprise organization
-param organization default "jlinn-tfcb
+param organization default "jlinn-tfcb"
 
 # A valid Terraform Cloud or Terraform Enterprise API token
 param token
