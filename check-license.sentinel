@@ -2,9 +2,26 @@ import "tfplan"
 import "tfconfig/v2" as tfconfig
 import "http"
 
-moduleSource = {}
+### Parameters ###
+# The address of the TFC or TFE server
+param address default "app.terraform.io"
+# The organizations on the TFC or TFE server that modules can some from
+param organizations
 
 print(tfconfig.module_calls)
+
+privateRegistrySource = filter tfconfig.module_calls as index, mc {
+ strings.has_prefix(mc.source, address + "/" + organization)
+print("private registry",privateRegistrySource)
+
+# Fnd modules called from root module that are not in the desired PMR
+violatingMCs = filter tfconfig.module_calls as index, mc {
+  mc.module_address is "" and
+  not any organizations as organization {
+    strings.has_prefix(mc.source, address + "/" + organization)
+  }
+}
+print("violatingMCs", violatingMCs)
 
 main = rule {
  true
