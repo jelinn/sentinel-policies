@@ -8,7 +8,7 @@ param address default "app.terraform.io"
 param organization default "jlinn-tfcb"
 
 # A valid Terraform Cloud or Terraform Enterprise API token
-param token
+#param token
 
 
 for tfconfig.modules as name, m {
