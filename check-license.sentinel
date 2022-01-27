@@ -26,10 +26,11 @@ for tfconfig.modules as name, m {
     print("Module Source", moduleSourceURL)
     
     # Second API call to source URL Github license API
-    #requstURL = strings.join(moduleSourceURL,"
-    #request = http.request(requestURL)
-    #response = json.unmarshal(http.get(request).body)
-    #moduleSourceURL = response.source    
+    #Github URL https://api.github.com/repos/$m.source/license
+    request = http.request("https://api.github.com/repos/" + m.source + "license")
+    response = json.unmarshal(http.get(request).body)
+    license = response.name 
+    print("License - ",license)
     
   } else {
     # Private Module Registry
