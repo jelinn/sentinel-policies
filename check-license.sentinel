@@ -22,7 +22,7 @@ for tfconfig.modules as name, m {
    # First API call to Terraform Registry to get source URL for module
     request = http.request("https://registry.terraform.io/v1/modules/"+m.source)
     response = json.unmarshal(http.get(request).body)
-    moduleSourceURL = strings.trim_prefix(response.source, "https://github.com")
+    moduleSourceURL = strings.trim_prefix(response.source, "https://github.com/")
     print("Module Source", moduleSourceURL)
     
     # Second API call to source URL Github license API
