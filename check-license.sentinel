@@ -12,7 +12,7 @@ param organization default "jlinn-tfcb"
 # A valid Terraform Cloud or Terraform Enterprise API token
 #param token
 
-check_module_licenses = func(){
+check_module_licenses = func(allowed_licenses){
   
   valid = true
   # Loop modules in use in this config. 
