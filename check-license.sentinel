@@ -32,7 +32,7 @@ for tfconfig.modules as name, m {
   } else {
     # Private Module Registry
     # Do we need to check these? 
-    print("PMR Module, m.source)
+    print("PMR Module", m.source)
   }
 }
 
