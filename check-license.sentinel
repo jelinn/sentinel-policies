@@ -17,10 +17,10 @@ for tfconfig.modules as name, m {
   if not strings.has_prefix(m.source, address + "/" + organization){
     # Public Module Registry - these are the modules we need to check. 
     # Public Registry API URL - https://registry.terraform.io/v1/modules/m.source
-    print("Public Module", m.source)
-    # First API call to Terraform Registry to get source URL for module
-    
-    request = http.request("https://registry.terraform.io/v1/modules/"+m.source)
+    print("Public Module", strings.trim_suffix(m.source,'\n'))
+   
+   # First API call to Terraform Registry to get source URL for module
+    request = http.request("https://registry.terraform.io/v1/modules/"+strings.trim_suffix(m.source,'\n'))
     response = json.unmarshal(http.get(request).body)
     moduleSourceURL = response.source
     print("Module Source", moduleSourceURL)
