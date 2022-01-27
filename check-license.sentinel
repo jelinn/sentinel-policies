@@ -27,7 +27,7 @@ for tfconfig.modules as name, m {
     
     # Second API call to source URL Github license API
     #Github URL https://api.github.com/repos/$m.source/license
-    request = http.request("https://api.github.com/repos/" + moduleSourceURL + "/license")
+    request = http.request("https://api.github.com/repos/" + moduleSourceURL)
     print("Request URL - ", request)
     response = json.unmarshal(http.get(request).body)
     license = response.name 
