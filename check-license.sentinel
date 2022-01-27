@@ -18,8 +18,7 @@ for tfconfig.modules as name, m {
     print("Public Module", m.source)
     # First API call to Terraform Registry to get source URL for module
     
-    requstURL = "https://registry.terraform.io/v1/modules/",m.source
-    request = http.request(requestURL)
+    request = http.request("https://registry.terraform.io/v1/modules/"+m.source)
     response = json.unmarshal(http.get(req).body)
     moduleSourceURL = response.source
     print("Module Source", moduleSourceURL)
